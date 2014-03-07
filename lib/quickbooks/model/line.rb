@@ -5,6 +5,7 @@ module Quickbooks
       SALES_LINE_ITEM_DETAIL = 'SalesItemLineDetail'
       SUB_TOTAL_LINE_DETAIL = 'SubTotalLineDetail'
       PAYMENT_LINE_DETAIL = 'PaymentLineDetail'
+      JOURNAL_ENTRY_LINE_DETAIL = 'JournalEntryLineDetail'
       DISCOUNT_LINE_DETAIL = 'DiscountLineDetail'
 
       xml_accessor :id, :from => 'Id', :as => Integer
@@ -17,6 +18,7 @@ module Quickbooks
       xml_accessor :sales_item_line_detail, :from => 'SalesItemLineDetail', :as => SalesItemLineDetail
       xml_accessor :sub_total_line_detail, :from => 'SubTotalLineDetail', :as => SubTotalLineDetail
       xml_accessor :payment_line_detail, :from => 'PaymentLineDetail', :as => PaymentLineDetail
+      xml_accessor :journal_entry_line_detail, :from => 'JournalEntryLineDetail', :as => JournalEntryLineDetail
       xml_accessor :discount_line_detail, :from => 'DiscountLineDetail', :as => DiscountOverride
       xml_accessor :linked_transaction, :from => 'LinkedTxn', :as => LinkedTransaction
 
@@ -31,6 +33,13 @@ module Quickbooks
 
         yield self.sales_item_line_detail if block_given?
       end
+
+      def journal_item!
+         self.detail_type = JOURNAL_ENTRY_LINE_DETAIL
+         self.journal_entry_line_detail = JournalEntryLineDetail.new
+
+         yield self.journal_entry_line_detail if block_given?
+       end
     end
   end
 end
